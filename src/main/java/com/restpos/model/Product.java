@@ -1,12 +1,29 @@
 package com.restpos.model;
 
 import java.io.Serializable;
+import java.util.UUID;
+
+import com.opencsv.bean.CsvBindByPosition;
 
 public class Product implements Serializable {
+
     private String id;
+
+    @CsvBindByPosition(position = 1)
     private String name;
+
+    @CsvBindByPosition(position = 2)
     private double price;
+
     private String image;
+
+    public Product(String name, double price) {
+        this(name, price, "/images/placeholder.png");
+    }
+
+    public Product(String name, double price, String image) {
+        this(UUID.randomUUID().toString(), name, price, image);
+    }
 
     public Product(String id, String name, double price, String image) {
         this.id = id;
