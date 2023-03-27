@@ -5,6 +5,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -27,7 +28,7 @@ public class ProductController {
 
 	@GetMapping("/products")
 	public ResponseEntity<CollectionModel<EntityModel<Product>>> allProducts() {
-		List<EntityModel<Product>> products = productService.products().stream()
+		List<EntityModel<Product>> products = StreamSupport.stream(productService.products().spliterator(), false)
 				.map(product -> EntityModel.of(product,
 						linkTo(methodOn(ProductController.class).getProduct(product.getId())).withSelfRel(),
 						linkTo(methodOn(ProductController.class).allProducts()).withRel("products")))
@@ -39,7 +40,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/products/{id}")
-	ResponseEntity<EntityModel<Product>> getProduct(@PathVariable String id) {
+	ResponseEntity<EntityModel<Product>> getProduct(@PathVariable Long id) {
 
 		return productService.getProduct(id)
 				.map(product -> EntityModel.of(product,

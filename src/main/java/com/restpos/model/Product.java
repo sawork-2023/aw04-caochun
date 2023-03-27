@@ -1,42 +1,56 @@
 package com.restpos.model;
 
 import java.io.Serializable;
-import java.util.UUID;
 
-import com.opencsv.bean.CsvBindByPosition;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
+@Entity
+@Table(name = "TBL_PRODUCTS")
 public class Product implements Serializable {
 
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @CsvBindByPosition(position = 1)
+    @Column(name = "prd_name")
     private String name;
 
-    @CsvBindByPosition(position = 2)
+    @Column(name = "prd_price")
     private double price;
 
+    @Column(name = "prd_category")
+    private String category;
+
+    @Transient
     private String image;
 
-    public Product(String name, double price) {
-        this(name, price, "/images/placeholder.png");
+    public Product() {
+        super();
+        this.image = "/images/placeholder.png";
     }
 
-    public Product(String name, double price, String image) {
-        this(UUID.randomUUID().toString(), name, price, image);
+    public Product(Long id, String name, double price) {
+        this(id, name, price, "/images/placeholder.png");
     }
 
-    public Product(String id, String name, double price, String image) {
+    public Product(Long id, String name, double price, String image) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.image = image;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

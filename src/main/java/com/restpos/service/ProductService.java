@@ -1,15 +1,14 @@
 package com.restpos.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.restpos.model.Product;
 
 public interface ProductService {
 
-    public List<Product> products();
+    public Iterable<Product> products();
 
-    public Optional<Product> getProduct(String id);
+    public Optional<Product> getProduct(Long id);
 
-    public Product randomProduct();
+    public Optional<Product> randomProduct();
 }
